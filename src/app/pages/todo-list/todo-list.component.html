@@ -1,0 +1,24 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center relative overflow-hidden">
+    <div class="bg-white shadow-2xl rounded-2xl w-full max-w-2xl p-6 animate-fade-in-up">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold text-blue-600">📝 FocusFlow Tasks</h2>
+            <button (click)="openDrawer()"
+                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                + Add Task
+            </button>
+        </div>
+
+        <ul>
+            <app-todo-item *ngFor="let task of tasks" [task]="task" (edit)="openDrawer(task)"
+                (delete)="deleteTask(task.id)"></app-todo-item>
+        </ul>
+
+        <p *ngIf="tasks.length === 0" class="text-gray-500 text-center mt-4">
+            No tasks yet — add one to get started!
+        </p>
+    </div>
+
+    <!-- Drawer -->
+    <app-todo-drawer *ngIf="drawerOpen" [task]="selectedTask" (close)="closeDrawer()"
+        (save)="saveTask($event)"></app-todo-drawer>
+</div>

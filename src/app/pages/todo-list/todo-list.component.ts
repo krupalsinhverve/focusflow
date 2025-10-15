@@ -16,6 +16,7 @@ export class TodoListComponent {
   tasks: Task[] = [];
   drawerOpen = false;
   selectedTask: Task | null = null;
+  selectedFilter: string = 'All';
 
   openDrawer(task?: Task) {
     this.selectedTask = task ? { ...task } : null;
@@ -28,11 +29,9 @@ export class TodoListComponent {
 
   saveTask(task: Task) {
     if (task.id) {
-      // Edit existing
       const index = this.tasks.findIndex((t) => t.id === task.id);
       if (index !== -1) this.tasks[index] = task;
     } else {
-      // Add new
       task.id = Date.now();
       this.tasks.push(task);
     }
@@ -41,5 +40,10 @@ export class TodoListComponent {
 
   deleteTask(id: number) {
     this.tasks = this.tasks.filter((t) => t.id !== id);
+  }
+
+  get filteredTasks() {
+    if (this.selectedFilter === 'All') return this.tasks;
+    return this.tasks.filter((t) => t.status === this.selectedFilter);
   }
 }

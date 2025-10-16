@@ -32,11 +32,17 @@ export class LoginComponent {
     this.loading = true;
 
     try {
+      let userCredential;
       if (this.isRegister) {
-        await createUserWithEmailAndPassword(this.auth, this.email, this.password);
+        userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
       } else {
-        await signInWithEmailAndPassword(this.auth, this.email, this.password);
+        userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
       }
+
+      // Save login timestamp
+      const now = new Date().getTime();
+      localStorage.setItem('lastLogin', now.toString());
+
       this.router.navigate(['/todo']);
     } catch (err: any) {
       this.errorMessage = err.message;
@@ -44,4 +50,11 @@ export class LoginComponent {
       this.loading = false;
     }
   }
+
+  async logout() {
+    await signOut(this.auth);
+    localStorage.removeItem('lastLogin');
+    this.router.navigate(['/']);
+  }
+
 }

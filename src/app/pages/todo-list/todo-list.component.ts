@@ -1,22 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  Auth
+} from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
-import { TodoDrawerComponent } from "./todo-drawer/todo-drawer.component";
-import { TodoItemComponent } from "./todo-item/todo-item.component";
+import { Router, RouterModule } from '@angular/router';
 import { Task } from '../../models/task.model';
-
+import { TodoDrawerComponent } from "./todo-drawer/todo-drawer.component";
 @Component({
   selector: 'app-todo-list',
   standalone: true,
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
-  imports: [FormsModule, CommonModule, TodoDrawerComponent, TodoItemComponent]
+  imports: [FormsModule, CommonModule, RouterModule, TodoDrawerComponent]
 })
 export class TodoListComponent {
   tasks: Task[] = [];
   drawerOpen = false;
   selectedTask: Task | null = null;
   selectedFilter: string = 'All';
+
+  constructor(private auth: Auth, private router: Router) { }
 
   openDrawer(task?: Task) {
     this.selectedTask = task ? { ...task } : null;

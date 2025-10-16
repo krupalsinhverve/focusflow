@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
 
         // 24 hours = 24 * 60 * 60 * 1000 ms
         if (now - loginTime < 24 * 60 * 60 * 1000) {
-          this.router.navigate(['/todo']);
+          this.router.navigate(['/home']);
         }
       }
     }

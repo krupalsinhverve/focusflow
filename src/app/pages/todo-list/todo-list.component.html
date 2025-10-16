@@ -1,18 +1,19 @@
-<div class="min-h-screen bg-gray-50 flex items-center justify-center relative overflow-hidden">
-    <div class="bg-white shadow-xl rounded-2xl w-full max-w-3xl p-6 animate-fade-in-up">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h2 class="text-2xl font-bold text-blue-700">FocusFlow Tasks</h2>
-            </div>
+<div class=" w-full max-w-5xl p-2 animate-fade-in-up">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 class="text-3xl font-extrabold text-indigo-700">FocusFlow Tasks</h2>
+        </div>
+        <div class="flex items-center gap-4">
 
             <button (click)="openDrawer()"
-                class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                class="flex items-center gap-2 bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition shadow-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -20,40 +21,83 @@
                 <span>Add Task</span>
             </button>
         </div>
-
-        <!-- Filter Bar -->
-        <div class="flex gap-2 mb-5">
-            <button *ngFor="let status of ['All', 'Pending', 'In Progress', 'Complete', 'On Hold']"
-                (click)="selectedFilter = status" class="px-3 py-1 rounded-lg text-sm font-medium border transition"
-                [class.bg-blue-600]="selectedFilter === status" [class.text-white]="selectedFilter === status"
-                [class.border-blue-600]="selectedFilter === status" [class.text-gray-600]="selectedFilter !== status"
-                [class.border-gray-300]="selectedFilter !== status">
-                {{ status }}
-            </button>
-        </div>
-
-        <!-- Task List -->
-        <div *ngIf="filteredTasks.length; else emptyState">
-            <ul class="space-y-3">
-                <app-todo-item *ngFor="let task of filteredTasks" [task]="task" (edit)="openDrawer(task)"
-                    (delete)="deleteTask(task.id)"></app-todo-item>
-            </ul>
-        </div>
-
-        <!-- Empty State -->
-        <ng-template #emptyState>
-            <div class="text-center text-gray-500 mt-16">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-400" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-lg">No tasks found</p>
-            </div>
-        </ng-template>
     </div>
 
-    <!-- Drawer -->
-    <app-todo-drawer *ngIf="drawerOpen" [task]="selectedTask" (close)="closeDrawer()"
-        (save)="saveTask($event)"></app-todo-drawer>
+    <!-- Filter Bar -->
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button *ngFor="let status of ['All', 'Pending', 'In Progress', 'Complete', 'On Hold']"
+            (click)="selectedFilter = status"
+            class="px-4 py-2 rounded-full text-sm font-medium border transition shadow-sm"
+            [class.bg-indigo-600]="selectedFilter === status" [class.text-white]="selectedFilter === status"
+            [class.border-indigo-600]="selectedFilter === status" [class.text-gray-600]="selectedFilter !== status"
+            [class.border-gray-300]="selectedFilter !== status" [class.hover:bg-indigo-50]="selectedFilter !== status">
+            {{ status }}
+        </button>
+    </div>
+
+    <!-- Task Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 shadow rounded-2xl">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Title
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Description
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                    </th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let task of filteredTasks" class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-800 font-medium">{{ task.title }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-600 text-sm">{{ task.description }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium" [ngClass]="{
+                      'bg-yellow-100 text-yellow-700': task.status === 'Pending',
+                      'bg-blue-100 text-blue-700': task.status === 'In Progress',
+                      'bg-green-100 text-green-700': task.status === 'Complete',
+                      'bg-gray-200 text-gray-700': task.status === 'On Hold'
+                    }">
+                            {{ task.status }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right flex justify-end gap-2">
+                        <button (click)="openDrawer(task)"
+                            class="p-2 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5m-4-4l5 5m0 0L13 5l5 5z" />
+                            </svg>
+                        </button>
+
+                        <button (click)="deleteTask(task.id)"
+                            class="p-2 rounded-full bg-red-50 hover:bg-red-100 text-red-600 transition shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr *ngIf="filteredTasks.length === 0">
+                    <td colspan="4" class="text-center py-6 text-gray-400">No tasks found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
+
+<!-- Drawer -->
+<app-todo-drawer *ngIf="drawerOpen" [task]="selectedTask" (close)="closeDrawer()" (save)="saveTask($event)">
+</app-todo-drawer>

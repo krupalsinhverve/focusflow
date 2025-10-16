@@ -43,7 +43,7 @@ export class LoginComponent {
       const now = new Date().getTime();
       localStorage.setItem('lastLogin', now.toString());
 
-      this.router.navigate(['/todo']);
+      this.router.navigate(['/home']);
     } catch (err: any) {
       this.errorMessage = err.message;
     } finally {
@@ -51,10 +51,6 @@ export class LoginComponent {
     }
   }
 
-  async logout() {
-    await signOut(this.auth);
-    localStorage.removeItem('lastLogin');
-    this.router.navigate(['/']);
-  }
+ 
 
 }

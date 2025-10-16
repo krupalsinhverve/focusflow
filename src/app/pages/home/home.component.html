@@ -1,0 +1,90 @@
+<div class="min-h-screen bg-gray-100 flex flex-col">
+
+    <!-- Navbar / Header -->
+    <header class="bg-white shadow-md py-4 px-6 flex justify-between items-center sticky top-0 z-50">
+        <!-- <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m2 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h1 class="text-2xl font-bold text-gray-800">FocusFlow Dashboard</h1>
+        </div> -->
+        <div class="flex items-center gap-4">
+            <!-- <button class="bg-indigo-600 text-white px-4 py-2 rounded-full shadow hover:bg-indigo-700 transition">
+                Add Task
+            </button> -->
+            <button (click)="logout()" class="text-gray-600 hover:text-red-500 font-semibold transition">
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex flex-1 overflow-hidden">
+
+        <!-- Optional Sidebar -->
+        <aside class="hidden md:flex flex-col w-64 bg-white shadow-inner p-6 space-y-6">
+            <nav class="flex flex-col gap-4">
+                <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-indigo-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12h18M3 6h18M3 18h18" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-indigo-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Tasks
+                </a>
+                <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-indigo-600 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
+                    </svg>
+                    Reports
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Dashboard Area -->
+        <main class="flex-1 overflow-auto p-6">
+            <!-- Dashboard Stats Cards -->
+            <!-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
+                    <p class="text-sm text-gray-500">Total Tasks</p>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ tasks.length }}</h3>
+                </div>
+                <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
+                    <p class="text-sm text-gray-500">Pending</p>
+                    <h3 class="text-2xl font-bold text-yellow-600">
+                        {{ tasks.filter(t => t.status === 'Pending').length }}
+                    </h3>
+                </div>
+                <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
+                    <p class="text-sm text-gray-500">In Progress</p>
+                    <h3 class="text-2xl font-bold text-blue-600">
+                        {{ tasks.filter(t => t.status === 'In Progress').length }}
+                    </h3>
+                </div>
+                <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
+                    <p class="text-sm text-gray-500">Completed</p>
+                    <h3 class="text-2xl font-bold text-green-600">
+                        {{ tasks.filter(t => t.status === 'Complete').length }}
+                    </h3>
+                </div>
+            </div> -->
+
+            <!-- Todo List Table -->
+            <div class="bg-white rounded-3xl shadow p-6">
+                <app-todo-list></app-todo-list>
+            </div>
+        </main>
+
+    </div>
+
+</div>

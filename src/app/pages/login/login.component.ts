@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  User
+} from '@angular/fire/auth'
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
@@ -11,35 +18,30 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  mobileNumber: string = '';
-  otp: string = '';
-  otpSent: boolean = false;
+  email = '';
+  password = '';
+  isRegister = false;
+  errorMessage = '';
+  loading = false;
   currentYear: number = new Date().getFullYear();
 
-  constructor(private router: Router) { }
+  constructor(private auth: Auth, private router: Router) { }
 
-  generateOtp() {
-    if (this.mobileNumber.length === 10) {
-      this.otpSent = true;
-      console.log('OTP sent to', this.mobileNumber);
-      // TODO: Call backend API to send OTP
-    } else {
-      alert('Please enter a valid 10-digit mobile number.');
-    }
-  }
+  async onSubmit() {
+    this.errorMessage = '';
+    this.loading = true;
 
-  resendOtp(event: Event) {
-    event.preventDefault();
-    console.log('Resend OTP to', this.mobileNumber);
-    // TODO: Resend OTP API call
-  }
-
-  onSubmit() {
-    if (this.otp === '1234') {
-      alert('OTP verified successfully!');
+    try {
+      if (this.isRegister) {
+        await createUserWithEmailAndPassword(this.auth, this.email, this.password);
+      } else {
+        await signInWithEmailAndPassword(this.auth, this.email, this.password);
+      }
       this.router.navigate(['/todo']);
-    } else {
-      alert('Invalid OTP. Please try again.');
+    } catch (err: any) {
+      this.errorMessage = err.message;
+    } finally {
+      this.loading = false;
     }
   }
 }

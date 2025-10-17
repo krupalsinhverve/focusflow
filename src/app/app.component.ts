@@ -15,18 +15,24 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      const lastLogin = localStorage.getItem('lastLogin');
-      if (lastLogin) {
-        const loginTime = parseInt(lastLogin, 10);
-        const now = new Date().getTime();
+      const userStr = localStorage.getItem('user');
 
-        // 24 hours = 24 * 60 * 60 * 1000 ms
-        if (now - loginTime < 24 * 60 * 60 * 1000) {
-          this.router.navigate(['/home']);
-        }
+      if (!userStr) {
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      const user = JSON.parse(userStr);
+      const now = new Date().getTime();
+
+      if (user.tokenExpiry && now < user.tokenExpiry) {
+        // Token still valid → navigate to home
+        this.router.navigate(['/home']);
+      } else {
+        // Token expired → remove user and go to login
+        localStorage.removeItem('user');
+        this.router.navigate(['/login']);
       }
     }
   }
-
-
 }

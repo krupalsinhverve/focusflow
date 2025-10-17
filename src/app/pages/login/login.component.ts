@@ -4,9 +4,8 @@ import {
   Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
   User
-} from '@angular/fire/auth'
+} from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
@@ -39,9 +38,21 @@ export class LoginComponent {
         userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
       }
 
-      // Save login timestamp
-      const now = new Date().getTime();
-      localStorage.setItem('lastLogin', now.toString());
+      const user: User = userCredential.user;
+
+      // Get ID token
+      const token = await user.getIdToken();
+      const expiresIn = 3600 * 1000;
+
+      // Save user info in localStorage
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        token,
+        tokenExpiry: new Date().getTime() + expiresIn
+      };
+
+      localStorage.setItem('user', JSON.stringify(userData));
 
       this.router.navigate(['/home']);
     } catch (err: any) {
@@ -50,7 +61,4 @@ export class LoginComponent {
       this.loading = false;
     }
   }
-
- 
-
 }

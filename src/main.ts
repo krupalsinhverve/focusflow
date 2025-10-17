@@ -5,6 +5,7 @@ import { routes } from './app/app.routes';
 import { importProvidersFrom } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { environment } from './environments/environment';
 
@@ -14,7 +15,8 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       FormsModule,
       provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideAuth(() => getAuth())
+      provideAuth(() => getAuth()),
+      provideFirestore(() => getFirestore())
     )
   ]
 }).catch(err => console.error(err));

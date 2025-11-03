@@ -12,11 +12,9 @@ import { environment } from './environments/environment';
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(
-      FormsModule,
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideAuth(() => getAuth()),
-      provideFirestore(() => getFirestore())
-    )
+    importProvidersFrom(FormsModule),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
   ]
 }).catch(err => console.error(err));
